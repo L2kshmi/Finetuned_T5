@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import numpy as np
+import jsonify
 import torch
 from pathlib import Path
 from torch.utils.data import Dataset, DataLoader
@@ -73,17 +74,21 @@ def summarize(text):
     return "".join(preds)
 
 
-@app.route('/')
-def hello():
-    return 'Hello World!'
+# @app.route('/')
+# def hello():
+#     return 'Hello World!'
 
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def predict():
-    # if request.method == 'POST':
-    #     text = request.files['text']
+    summary = "swa"
+    text = "juu"
+    if request.method == 'POST' and "actualText" in request.form:
+        text = request.form.get("actualText")
     
-    #     summary = summarize(text)
-    #     return jsonify({'summary': summary})
+        summary = summarize(text)
+        # return jsonify({'summary': summary})
+    return render_template("index.html", text=text, summary=summary)
+
     text = """An old man lived in the village. He was one of the most unfortunate people in the world. 
 The whole village was tired of him; he was always gloomy, he constantly complained and was always in a bad mood. 
 The longer he lived, the more bile he was becoming and the more poisonous were his words. People avoided him, 
@@ -94,11 +99,12 @@ he doesn’t complain about anything, smiles, and even his face is freshened up.
 The old man was asked: What happened to you? 
 “Nothing special. Eighty years I’ve been chasing happiness, and it was useless. 
 And then I decided to live without happiness and just enjoy life. That’s why I’m happy now.” – An Old Man"""
-    summary = summarize(text)
-    return summary
+    # summary = summarize(text)
+    # return summary
 
 # resp = requests.post("http://localhost:5000/predict",
-#                      files = {"text": open('/Users/Sreeraj Rajan/flask/summarizar/text.txt', encoding="utf8")})
+#                      files = {"file": open('text.txt', "rb")})
+                    
 
 if __name__ == "__main__":
   app.run(debug=True)
