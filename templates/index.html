@@ -1,0 +1,27 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-G9DpmGxRIF6tpgbrkZVcZDeIomEU22LgTguPAI739bbKytjPE/kHTK5YxjJAAEXC" crossorigin="anonymous">
+</head>
+<body>
+<div>
+    <p>Text Summarization</p>
+    <form class="pure-form" method="POST" action="/">
+        Enter the text:<br>
+        <input type="text" name="actualText"><br>
+        <button type="submit" class="pure-button pure-button-primary" value="Submit">
+            Submit
+        </button>
+
+    </form>
+</div>
+<div>
+    {% if text %}
+
+    <p>Actual Text : {{text}} </p>
+    <p>Summary : {{summary}}</p>
+    {% endif %}
+    
+
+</div>
+    
+</body>
