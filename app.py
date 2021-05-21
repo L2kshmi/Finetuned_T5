@@ -1,9 +1,7 @@
 import json
-import pandas as pd
-import numpy as np
+import sys
 import jsonify
 import torch
-from pathlib import Path
 from torch.utils.data import Dataset, DataLoader
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
@@ -78,33 +76,17 @@ def summarize(text):
 # def hello():
 #     return 'Hello World!'
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['POST', 'GET'])
 def predict():
     summary = "swa"
     text = "juu"
-    if request.method == 'POST' and "actualText" in request.form:
-        text = request.form.get("actualText")
-    
+    print(text)
+    if request.method == 'POST' :
+        text = request.json["actualText"]
+        print(text)   
         summary = summarize(text)
-        # return jsonify({'summary': summary})
-    return render_template("index.html", text=text, summary=summary)
-
-    text = """An old man lived in the village. He was one of the most unfortunate people in the world. 
-The whole village was tired of him; he was always gloomy, he constantly complained and was always in a bad mood. 
-The longer he lived, the more bile he was becoming and the more poisonous were his words. People avoided him, 
-because his misfortune became contagious. It was even unnatural and insulting to be happy next to him. 
-He created the feeling of unhappiness in others. But one day, when he turned eighty years old, 
-an incredible thing happened. Instantly everyone started hearing the rumour: “An Old Man is happy today, 
-he doesn’t complain about anything, smiles, and even his face is freshened up.” The whole village gathered together. 
-The old man was asked: What happened to you? 
-“Nothing special. Eighty years I’ve been chasing happiness, and it was useless. 
-And then I decided to live without happiness and just enjoy life. That’s why I’m happy now.” – An Old Man"""
-    # summary = summarize(text)
-    # return summary
-
-# resp = requests.post("http://localhost:5000/predict",
-#                      files = {"file": open('text.txt', "rb")})
-                    
+        print(summary)
+        return {"summary":summary}   
 
 if __name__ == "__main__":
-  app.run(debug=True)
+  app.run(host="0.0.0.0")
